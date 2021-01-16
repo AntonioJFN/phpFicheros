@@ -2,26 +2,31 @@
 
 //Vamos a copiar los ficheros iniciales si es la primera vez que se conecta un usuario
 //Esto es para eliminar los ficheros que subáis después de que terminéis la sesión
- function restablecer_carpetas()
-    {
-        //echo "Estoy reestablaciendo carpetas <br />";
-        //var_dump($_SESSION);
-        `rm -r descargas`;
-        `cp  -r descargas_original descargas`;
-    }
+ function restablecer_carpetas() {
+        echo "Estoy reestablaciendo carpetas <br />";
+        var_dump($_SESSION);
+        mkdir(descargas);
 
-session_start();
+        `cp  -r descargas_original/* descargas`;
+        chmod(descargas,0777);
 
-if (!isset($_SESSION['conectado'])) {
+        echo "creando copia de original";
+ }
+
+//session_start();
+
+/*if (!isset($_SESSION['conectado'])) {
     restablecer_carpetas();
     $_SESSION['conectado'] = true;
-}
+}*/
 
+/*if (!(is_dir("descargas"))){
+    restablecer_carpetas();
+}*/
 $msj = isset( $_GET[ 'msj' ] ) ? $_GET[ 'msj' ] : null;
 //Inicilizo variables
 $name = $_POST[ 'name' ] ?? "admin";
 $pass = $_POST[ 'pass' ] ?? "admin";
-
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +49,7 @@ and open the template in the editor.
             <legend style="font-size:20px;font-style: oblique;background:aliceblue ">Subida de ficheros</legend>
             <form action="descarga.php" method="POST" enctype="multipart/form-data">
                 <br/>
-                Usuario&nbsp&nbsp&nbsp <input type="text" name="name" value="<?php echo $name ?>"  >
+                Usuario&nbsp&nbsp&nbsp <input type="text" name="name" value="<?php echo $name ?>">
                 <br>
                 Password <input type="text" name="pass" value="<?php echo $pass ?>"  >
                 <br/>
@@ -56,9 +61,9 @@ and open the template in the editor.
                 </div>
                 <br>
                 <br>
-                <input type="submit" value="Subir fichero y acceder" name="enviar">
-                <input type="submit" value="Subir fichero" name="enviar">
-                <input type="submit" value="Acceder" name="enviar">
+                <input type="submit" value="Subir fichero y acceder" name="submit">
+                <input type="submit" value="Subir fichero" name="submit">
+                <input type="submit" value="Acceder" name="submit">
 
             </form>
         </fieldset>
